@@ -8,6 +8,6 @@ public class MinipayServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MinipayServiceApplication.class, args);
+		System.out.println("MINI-PAY SERVICE STARTED SUCCESSFULLY!");
 	}
-
 }

@@ -1,3 +1,39 @@
 spring:
   application:
     name: minipay-service
+
+  profiles:
+    active: dev
+
+  jackson:
+    default-property-inclusion: non_null
+    date-format: yyyy-MM-dd HH:mm:ss
+
+server:
+  port: 3271
+  error:
+    include-message: always
+    include-binding-errors: always
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+logging:
+  level:
+    root: INFO
+    com.minipay: DEBUG
+    org.hibernate.SQL: DEBUG
+
+jwt:
+  secret: ${JWT_SECRET:sjsjwjnbeekjwkejwwppxzakjkjdevklwkwlwiuu}
+  expiration: 86400000 # 24 hours in ms
+
+sms:
+  provider: console
+  africastalking:
+    api-key: ${AT_API_KEY}
+    username: ${AT_USERNAME:sandbox}
+

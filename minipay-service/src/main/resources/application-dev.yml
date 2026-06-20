@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/minipay_db
     username: minipay_user
-    password: minipay_passwd
+    password: minipay_passd
     driver-class-name: org.postgresql.Driver
 
   jpa:

@@ -14,8 +14,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
 @Table(name="notification_logs")
 public class NotificationLog extends BaseEntity{
+    @Id
     @GeneratedValue(strategy= GenerationType.UUID)
     private UUID id;
 

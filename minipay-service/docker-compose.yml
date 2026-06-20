@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_DB: minipay_db
       POSTGRES_USER: minipay_user
-      POSTGRES_PASSWORD: minipay_passd
+      POSTGRES_PASSWORD: minipay_pass
     ports:
       - "5432:5432"
     volumes:

@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface NotificationLogRepository extends JpaRepository<NotificationLog, UUID> {
-    List<NotificationLog> findByPaymentId(Long paymentId);
+    List<NotificationLog> findByPaymentId(UUID paymentId);
 }

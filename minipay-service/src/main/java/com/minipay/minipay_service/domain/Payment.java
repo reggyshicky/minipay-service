@@ -1,6 +1,7 @@
 package com.minipay.minipay_service.domain;
 
 import com.minipay.minipay_service.domain.enums.PaymentMethod;
+import com.minipay.minipay_service.domain.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,6 +33,11 @@ public class Payment extends BaseEntity{
     @Enumerated(EnumType.STRING)
     @Column(name="payment_method", nullable=false, length=20)
     private PaymentMethod paymentMethod;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable=false, length=20)
+    @Builder.Default
+    private PaymentStatus status = PaymentStatus.PENDING;
 
     @Column(unique=true, length=50)
     private String reference;

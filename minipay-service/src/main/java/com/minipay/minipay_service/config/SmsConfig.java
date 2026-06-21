@@ -1,6 +1,7 @@
 package com.minipay.minipay_service.config;
 
 import com.minipay.minipay_service.service.SmsService;
+import com.minipay.minipay_service.service.impl.AfricasTalkingSmsService;
 import com.minipay.minipay_service.service.impl.ConsoleSmsService;
 import com.minipay.minipay_service.service.impl.TwilioSmsService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ public class SmsConfig {
 
     private final ConsoleSmsService consoleSmsService;
     private final TwilioSmsService twilioSmsService;
+    private final AfricasTalkingSmsService africasTalkingSmsService;
 
     @Value("${sms.provider}")
     private String provider;
@@ -24,6 +26,7 @@ public class SmsConfig {
     public SmsService smsService() {
         return switch (provider.toLowerCase()) {
             case "twilio" -> twilioSmsService;
+            case "africastalking" -> africasTalkingSmsService;
             default -> consoleSmsService;
         };
     }

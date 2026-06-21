@@ -2,10 +2,7 @@ package com.minipay.minipay_service.domain;
 
 import com.minipay.minipay_service.domain.enums.NotificationStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,6 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name="notification_logs")
 public class NotificationLog extends BaseEntity{
     @Id

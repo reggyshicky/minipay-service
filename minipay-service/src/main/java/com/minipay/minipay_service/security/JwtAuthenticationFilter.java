@@ -26,7 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
-            ) throws ServletException, IOException {
+    ) throws ServletException, IOException {
         String token = resolveToken(request);
 
         if (token != null && jwtTokenProvider.validateToken(token)) {
@@ -34,15 +34,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            filterChain.doFilter(request, response);
         }
-    }
 
+        filterChain.doFilter(request, response);
+    }
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {

@@ -4,6 +4,7 @@ import com.minipay.minipay_service.domain.NotificationLog;
 import com.minipay.minipay_service.domain.Payment;
 import com.minipay.minipay_service.domain.enums.NotificationStatus;
 import com.minipay.minipay_service.repository.NotificationLogRepository;
+import com.minipay.minipay_service.util.PhoneNumberUtil;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,17 +19,20 @@ import java.time.LocalDateTime;
 public class NotificationService {
     private final SmsService smsService;
     private final NotificationLogRepository notificationLogRepository;
+
     @Async("smsTaskExecutor")
     @Retry(name = "smsNotification")
     public void sendPaymentNotification(Payment payment) {
         String message = buildMessage(payment);
-        log.info("Sending async SMS notification for payment: {}", payment.getId());
+        String normalizedPhone = PhoneNumberUtil.toE164(payment.getPhoneNumber());
 
-        SmsService.SmsResult result = smsService.sendSms(payment.getPhoneNumber(), message);
+        log.info("Sending async SMS notification for payment: {} to {}", payment.getId(), normalizedPhone);
+
+        SmsService.SmsResult result = smsService.sendSms(normalizedPhone, message);
 
         NotificationLog notificationLog = NotificationLog.builder()
                 .payment(payment)
-                .phoneNumber(payment.getPhoneNumber())
+                .phoneNumber(normalizedPhone)
                 .message(message)
                 .status(result.success() ? NotificationStatus.SENT : NotificationStatus.FAILED)
                 .sentAt(result.success() ? LocalDateTime.now() : null)

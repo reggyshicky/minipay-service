@@ -45,7 +45,7 @@ public class PaymentGatewayService {
 
      }
 
-     public GatewayResult fallBackProcessPayment(BigDecimal amount, String phoneNumber, Throwable t) {
+     public GatewayResult fallbackProcessPayment(BigDecimal amount, String phoneNumber, Throwable t) {
         log.error("Circuit breaker fallback triggered for amount: {}, reason: {}", amount, t.getMessage());
         return new GatewayResult(false, null, "Payment gateway temporarily unavailable: " + t.getMessage());
      }

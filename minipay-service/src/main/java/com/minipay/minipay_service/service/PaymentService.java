@@ -4,6 +4,7 @@ import com.minipay.minipay_service.domain.Payment;
 import com.minipay.minipay_service.domain.User;
 import com.minipay.minipay_service.domain.enums.PaymentStatus;
 import com.minipay.minipay_service.dto.request.PaymentRequest;
+import com.minipay.minipay_service.dto.request.WebhookRequest;
 import com.minipay.minipay_service.dto.response.PaymentResponse;
 import com.minipay.minipay_service.exception.PaymentNotFoundException;
 import com.minipay.minipay_service.mapper.PaymentMapper;
@@ -79,6 +80,22 @@ public class PaymentService {
 
         return paymentRepository.findByUserId(user.getId(), pageable)
                 .map(paymentMapper::toResponse);
+    }
+
+    public PaymentResponse updatePaymentFromWebhook(WebhookRequest request) {
+        Payment payment = paymentRepository.findByReference(request.getReference())
+                .orElseThrow(() -> new PaymentNotFoundException(
+                        "Payment not found with reference: " + request.getReference()));
+
+        payment.setStatus(request.getStatus());
+        if (request.getStatus() == PaymentStatus.FAILED) {
+            payment.setFailureReason(request.getFailureReason());
+        }
+
+        payment = paymentRepository.save(payment);
+        log.info("Payment {} updated via webhook to status: {}", payment.getId(), payment.getStatus());
+
+        return paymentMapper.toResponse(payment);
     }
 
 }

@@ -2,10 +2,7 @@ package com.minipay.minipay_service.dto.response;
 
 import com.minipay.minipay_service.domain.enums.PaymentMethod;
 import com.minipay.minipay_service.domain.enums.PaymentStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,6 +12,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class PaymentResponse {
     private UUID id;
     private BigDecimal amount;

@@ -171,7 +171,7 @@ Full interactive documentation is available via Swagger UI at the link above. Su
 | GET | `/api/payments` | Yes | Paginated transaction history (`?page=&size=&sort=`) |
 | POST | `/api/webhooks/payment` | No | Simulates an external payment gateway callback updating a payment's status by reference |
 
-> **Note on pagination in Swagger UI:** springdoc renders the `Pageable` parameter as a single JSON object rather than separate query fields, which can be confusing. If testing pagination directly in Swagger, remove the `sort` field from that JSON box entirely. Testing via curl/Postman with explicit query params (`?page=0&size=10&sort=createdAt,desc`) avoids this challenge quirk entirely.
+> **Note on pagination in Swagger UI:** springdoc renders the `Pageable` parameter as a single JSON object rather than separate query fields, which can be confusing. If testing pagination directly in Swagger, remove the `sort` field from that JSON box entirely. Testing via curl/Postman with explicit query params (`?page=0&size=10&sort=createdAt,desc`) avoids this challenge entirely.
 
 ---
 

@@ -54,33 +54,82 @@
 
   <v-dialog v-model="dialogOpen" max-width="500">
     <v-card rounded="lg">
-      <v-card-title class="d-flex justify-space-between align-center">
-        <span>Payment Details</span>
-        <v-btn icon="mdi-close" size="small" variant="text" @click="dialogOpen = false" />
+      <v-card-title class="d-flex justify-space-between align-center bg-primary">
+        <span class="text-white">Payment Details</span>
+        <v-btn icon="mdi-close" size="small" variant="text" color="white" @click="dialogOpen = false" />
       </v-card-title>
 
-      <v-card-text v-if="detailsLoading" class="text-center py-8">
-        <v-progress-circular indeterminate color="primary" />
+      <v-card-text v-if="detailsLoading" class="text-center py-12">
+        <v-progress-circular indeterminate color="primary" size="48" />
       </v-card-text>
 
-      <v-card-text v-else-if="selectedPayment">
-        <v-list density="comfortable">
-          <v-list-item title="Payment ID" :subtitle="selectedPayment.id" />
-          <v-list-item title="Reference" :subtitle="selectedPayment.reference || '—'" />
-          <v-list-item title="Amount" :subtitle="`KES ${Number(selectedPayment.amount).toLocaleString()}`" />
-          <v-list-item title="Phone Number" :subtitle="selectedPayment.phoneNumber" />
-          <v-list-item title="Payment Method" :subtitle="selectedPayment.paymentMethod" />
-          <v-list-item title="Status">
-            <template #subtitle>
-              <v-chip :color="statusColor(selectedPayment.status)" size="small" variant="flat">
-                {{ selectedPayment.status }}
-              </v-chip>
-            </template>
-          </v-list-item>
-          <v-list-item v-if="selectedPayment.failureReason" title="Failure Reason" :subtitle="selectedPayment.failureReason" />
-          <v-list-item title="Created At" :subtitle="formatDate(selectedPayment.createdAt)" />
-          <v-list-item title="Updated At" :subtitle="formatDate(selectedPayment.updatedAt)" />
-        </v-list>
+      <v-card-text v-else-if="selectedPayment" class="pt-6">
+        <div class="d-flex justify-center mb-6">
+          <v-chip :color="statusColor(selectedPayment.status)" size="large" variant="flat" prepend-icon="mdi-check-circle">
+            {{ selectedPayment.status }}
+          </v-chip>
+        </div>
+
+        <v-divider class="mb-4" />
+
+        <v-row dense>
+          <v-col cols="12">
+            <div class="d-flex align-center mb-4">
+              <v-icon icon="mdi-cash" color="primary" class="mr-3" />
+              <div>
+                <div class="text-caption text-grey">Amount</div>
+                <div class="text-h6 font-weight-bold">KES {{ Number(selectedPayment.amount).toLocaleString() }}</div>
+              </div>
+            </div>
+          </v-col>
+
+          <v-col cols="12">
+            <div class="d-flex align-center mb-4">
+              <v-icon icon="mdi-pound" color="grey" class="mr-3" />
+              <div>
+                <div class="text-caption text-grey">Reference</div>
+                <div class="text-body-1">{{ selectedPayment.reference || 'Not yet assigned' }}</div>
+              </div>
+            </div>
+          </v-col>
+
+          <v-col cols="12">
+            <div class="d-flex align-center mb-4">
+              <v-icon icon="mdi-phone" color="grey" class="mr-3" />
+              <div>
+                <div class="text-caption text-grey">Phone Number</div>
+                <div class="text-body-1">{{ selectedPayment.phoneNumber }}</div>
+              </div>
+            </div>
+          </v-col>
+
+          <v-col cols="12">
+            <div class="d-flex align-center mb-4">
+              <v-icon icon="mdi-credit-card" color="grey" class="mr-3" />
+              <div>
+                <div class="text-caption text-grey">Payment Method</div>
+                <div class="text-body-1">{{ selectedPayment.paymentMethod }}</div>
+              </div>
+            </div>
+          </v-col>
+
+          <v-col v-if="selectedPayment.failureReason" cols="12">
+            <v-alert type="error" variant="tonal" density="comfortable" icon="mdi-alert-circle">
+              {{ selectedPayment.failureReason }}
+            </v-alert>
+          </v-col>
+        </v-row>
+
+        <v-divider class="my-4" />
+
+        <div class="d-flex justify-space-between text-caption text-grey">
+          <span>Created: {{ formatDate(selectedPayment.createdAt) }}</span>
+          <span>Updated: {{ formatDate(selectedPayment.updatedAt) }}</span>
+        </div>
+
+        <div class="text-caption text-grey mt-2 text-truncate">
+          ID: {{ selectedPayment.id }}
+        </div>
       </v-card-text>
     </v-card>
   </v-dialog>

@@ -3,15 +3,15 @@ services:
     image: postgres:16-alpine
     container_name: minipay-postgres
     environment:
-      POSTGRES_DB: minipay_db
-      POSTGRES_USER: minipay_user
-      POSTGRES_PASSWORD: minipay_pass
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U minipay_user -d minipay_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -25,15 +25,13 @@ services:
       - "3271:3271"
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      DATABASE_URL: jdbc:postgresql://postgres:5432/minipay_db
-      DATABASE_USERNAME: minipay_user
-      DATABASE_PASSWORD: minipay_pass
+      DATABASE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+      DATABASE_USERNAME: ${POSTGRES_USER}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
       TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
       TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
       TWILIO_FROM_NUMBER: ${TWILIO_FROM_NUMBER}
-      AT_API_KEY: ${AT_API_KEY:-}
-      AT_USERNAME: ${AT_USERNAME:-sandbox}
     depends_on:
       postgres:
         condition: service_healthy

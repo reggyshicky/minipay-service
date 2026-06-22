@@ -123,11 +123,7 @@
 			<artifactId>twilio</artifactId>
 			<version>10.5.0</version>
 		</dependency>
-		<dependency>
-			<groupId>com.github.AfricasTalkingLtd.africastalking-java</groupId>
-			<artifactId>core</artifactId>
-			<version>v3.5.3</version>
-		</dependency>
+
 
 
 		<!-- ===== TESTING ===== -->
